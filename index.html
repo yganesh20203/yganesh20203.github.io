@@ -37,6 +37,7 @@
         .container {
             max-width: 450px;
             padding: 30px;
+            padding-top: 50px; /* More space at the top for language selector */
             background: rgba(0, 0, 0, 0.2);
             border-radius: 15px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
@@ -44,8 +45,22 @@
             -webkit-backdrop-filter: blur(4px);
             border: 1px solid rgba(255, 255, 255, 0.18);
             animation: mainFadeIn 1s ease-out;
+            position: relative; /* Needed for positioning the language selector */
         }
 
+        /* --- NEW: Language Selector --- */
+        #language-selector {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            color: #333;
+            cursor: pointer;
+        }
+        
         /* --- Corner Logo --- */
         .corner-logo {
             position: fixed;
@@ -74,9 +89,9 @@
             opacity: 0;
         }
 
-        .link-button:nth-child(2) { animation-delay: 0.2s; }
-        .link-button:nth-child(3) { animation-delay: 0.4s; }
-        .link-button:nth-child(4) { animation-delay: 0.6s; }
+        .link-button:nth-child(3) { animation-delay: 0.2s; } /* Adjusted for h1 */
+        .link-button:nth-child(4) { animation-delay: 0.4s; }
+        .link-button:nth-child(5) { animation-delay: 0.6s; }
 
         .link-button:hover {
             transform: scale(1.05);
@@ -156,10 +171,17 @@
     <img src="logo.png" alt="Company Logo" class="corner-logo">
 
     <div class="container">
-        <h1>Welcome!</h1>
-        <a href="https://www.bestprice.in/bestprice/" class="link-button">Visit Our Main Website</a>
-        <a href="https://www.yoursecondwebsite.com/products" class="link-button">See Our Products</a>
-        <a href="https://www.yourthirdwebsite.com/contact" class="link-button">Contact Us</a>
+        <select id="language-selector">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+        </select>
+
+        <h1 data-key="welcome">Welcome!</h1>
+        <a href="https://www.bestprice.in/bestprice/" class="link-button" data-key="link1">Visit Our Main Website</a>
+        <a href="https://www.yoursecondwebsite.com/products" class="link-button" data-key="link2">See Our Products</a>
+        <a href="https://www.yourthirdwebsite.com/contact" class="link-button" data-key="link3">Contact Us</a>
     </div>
 
     <div id="loader-overlay">
@@ -167,7 +189,7 @@
             <svg id="shopping-cart-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6zM3 6h18M16 10a4 4 0 1 1-8 0" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <p class="loader-text">Please wait, we're loading all the available discounts only for you!</p>
+            <p class="loader-text" data-key="loaderText">Please wait, we're loading all the available discounts only for you!</p>
             <div class="progress-bar">
                 <div id="progress-fill"></div>
             </div>
@@ -176,31 +198,76 @@
     </div>
 
     <script>
-        // Find all the link buttons on the page
-        const linkButtons = document.querySelectorAll('.link-button');
+        // --- NEW: Language Translations ---
+        const translations = {
+            en: {
+                welcome: "Welcome!",
+                link1: "Visit Our Main Website",
+                link2: "See Our Products",
+                link3: "Contact Us",
+                loaderText: "Please wait, we're loading all the available discounts only for you!"
+            },
+            hi: {
+                welcome: "स्वागत है!",
+                link1: "हमारी मुख्य वेबसाइट पर जाएँ",
+                link2: "हमारे उत्पाद देखें",
+                link3: "हमसे संपर्क करें",
+                loaderText: "कृपया प्रतीक्षा करें, हम केवल आपके लिए सभी उपलब्ध छूट लोड कर रहे हैं!"
+            },
+            te: {
+                welcome: "స్వాగతం!",
+                link1: "మా ప్రధాన వెబ్‌సైట్‌ను సందర్శించండి",
+                link2: "మా ఉత్పత్తులను చూడండి",
+                link3: "మమ్మల్ని సంప్రదించండి",
+                loaderText: "దయచేసి వేచి ఉండండి, మేము మీ కోసం మాత్రమే అందుబాటులో ఉన్న అన్ని డిస్కౌంట్లను లోడ్ చేస్తున్నాము!"
+            },
+            pa: {
+                welcome: "ਜੀ ਆਇਆਂ ਨੂੰ!",
+                link1: "ਸਾਡੀ ਮੁੱਖ ਵੈੱਬਸਾਈਟ 'ਤੇ ਜਾਓ",
+                link2: "ਸਾਡੇ ਉਤਪਾਦ ਵੇਖੋ",
+                link3: "ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
+                loaderText: "ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ, ਅਸੀਂ ਸਿਰਫ਼ ਤੁਹਾਡੇ ਲਈ ਸਾਰੀਆਂ ਉਪਲਬਧ ਛੋਟਾਂ ਨੂੰ ਲੋਡ ਕਰ ਰਹੇ ਹਾਂ!"
+            }
+        };
+
+        const languageSelector = document.getElementById('language-selector');
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            // Set the lang attribute on the html tag for accessibility
+            document.documentElement.lang = lang;
+        }
+
+        languageSelector.addEventListener('change', (event) => {
+            setLanguage(event.target.value);
+        });
         
-        // Get the loader elements from the HTML
+        // Set default language on page load
+        setLanguage('en');
+
+        // --- Original JavaScript ---
+        const linkButtons = document.querySelectorAll('.link-button');
         const loaderOverlay = document.getElementById('loader-overlay');
         const progressFill = document.getElementById('progress-fill');
         const progressText = document.getElementById('progress-text');
         
-        // --- NEW: Back Button Fix ---
-        // Listen for the 'pageshow' event, which fires every time the page is displayed
         window.addEventListener('pageshow', function(event) {
-            // The 'persisted' property is true if the page is being loaded from the cache (i.e., via the back button)
             if (event.persisted) {
-                // If it's a back navigation, immediately hide the loader and reset it.
                 loaderOverlay.style.display = 'none';
                 progressFill.style.width = '0%';
                 progressText.textContent = '0%';
             }
         });
 
-        // Function to show the loader and start the animation
         function showLoaderAndRedirect(destinationUrl) {
             let progress = 0;
             loaderOverlay.style.display = 'flex';
-            const duration = 3000; // 3 seconds
+            const duration = 3000;
             const intervalTime = duration / 100;
             
             const loadingInterval = setInterval(() => {
@@ -215,7 +282,6 @@
             }, intervalTime);
         }
         
-        // Add a 'click' event listener to each button
         linkButtons.forEach(button => {
             button.addEventListener('click', (event) => {
                 event.preventDefault(); 
