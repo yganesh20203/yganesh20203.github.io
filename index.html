@@ -27,12 +27,10 @@
             height: 100%;
             z-index: -1;
             
-            /* This is now pointing to your background.png file */
             background-image: url('background.png'); 
             background-size: cover;
             background-position: center;
             
-            /* This adds a dark overlay so text is easier to read. Adjust opacity (0.5) as needed. */
             background-color: rgba(0, 0, 0, 0.5); 
             background-blend-mode: multiply;
         }
@@ -41,26 +39,32 @@
         .container {
             max-width: 450px;
             padding: 30px;
-            background: rgba(0, 0, 0, 0.2); /* A subtle, semi-transparent background for the content area */
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 15px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            backdrop-filter: blur(4px); /* Frosted glass effect */
+            backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             border: 1px solid rgba(255, 255, 255, 0.18);
-            animation: mainFadeIn 1s ease-out; /* Main container fade-in animation */
+            animation: mainFadeIn 1s ease-out;
+            position: relative; /* Needed to make logo positioning relative to container if desired, but we'll use fixed for corner */
         }
 
-        /* --- Logo --- */
-        .logo {
-            max-width: 150px; /* Adjust logo size here */
-            margin-bottom: 20px;
+        /* --- Corner Logo --- */
+        .corner-logo {
+            position: fixed; /* Positions relative to the viewport */
+            top: 20px;       /* Distance from the top */
+            right: 20px;     /* Distance from the right */
+            max-width: 120px; /* Adjust logo size as needed */
+            height: auto;
+            z-index: 100;    /* Ensures it stays on top of other content */
+            animation: fadeIn 1s ease-out; /* Optional: logo fade-in */
         }
 
         /* --- Link Buttons --- */
         .link-button {
             display: block;
             background-color: rgba(255, 255, 255, 0.9);
-            color: #1c1c1c; /* Dark text for light buttons */
+            color: #1c1c1c;
             padding: 18px;
             margin: 15px auto;
             border-radius: 10px;
@@ -69,17 +73,17 @@
             font-weight: 600;
             max-width: 350px;
             transition: transform 0.3s ease, background-color 0.3s ease;
-            opacity: 0; /* Start transparent for animation */
-            animation: fadeInUp 0.5s ease-out forwards; /* Button slide-up animation */
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out forwards;
         }
 
         /* Stagger the animation for each button */
-        .link-button:nth-child(2) { animation-delay: 0.2s; }
+        .link-button:nth-child(2) { animation-delay: 0.2s; } /* First button below logo */
         .link-button:nth-child(3) { animation-delay: 0.4s; }
-        .link-button:nth-child(4) { animation-delay: 0.6s; } /* Add more if you have more buttons */
+        .link-button:nth-child(4) { animation-delay: 0.6s; }
 
         .link-button:hover {
-            transform: scale(1.05); /* Enlarge button on hover */
+            transform: scale(1.05);
             background-color: white;
         }
 
@@ -99,16 +103,19 @@
                 transform: translateY(0);
             }
         }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
+    <img src="logo.png" alt="Company Logo" class="corner-logo">
+
     <div class="container">
-        
-        <img src="logo.png" alt="Company Logo" class="logo">
-        
         <a href="https://www.yourfirstwebsite.com" class="link-button">Visit Our Main Website</a>
         <a href="https://www.yoursecondwebsite.com/products" class="link-button">See Our Products</a>
         <a href="https://www.yourthirdwebsite.com/contact" class="link-button">Contact Us</a>
-        </div>
+    </div>
 </body>
 </html>
