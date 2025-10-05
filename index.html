@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Company Links</title>
     <style>
-        /* All your CSS remains the same... */
         /* --- General Setup --- */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -84,7 +83,7 @@
             background-color: white;
         }
 
-        /* --- NEW: Loader Overlay --- */
+        /* --- Loader Overlay --- */
         #loader-overlay {
             position: fixed;
             top: 0;
@@ -158,9 +157,9 @@
 
     <div class="container">
         <h1>Welcome!</h1>
-        <a href="https://www.bestprice.in/bestprice/" class="link-button" target="_blank">Visit Our Main Website</a>
-        <a href="https://www.yoursecondwebsite.com/products" class="link-button" target="_blank">See Our Products</a>
-        <a href="https://www.yourthirdwebsite.com/contact" class="link-button" target="_blank">Contact Us</a>
+        <a href="https://www.bestprice.in/bestprice/" class="link-button">Visit Our Main Website</a>
+        <a href="https://www.yoursecondwebsite.com/products" class="link-button">See Our Products</a>
+        <a href="https://www.yourthirdwebsite.com/contact" class="link-button">Contact Us</a>
     </div>
 
     <div id="loader-overlay">
@@ -186,7 +185,7 @@
         const progressText = document.getElementById('progress-text');
         
         // Function to show the loader and start the animation
-        function showLoaderAndRedirect(newTab, destinationUrl) {
+        function showLoaderAndRedirect(destinationUrl) {
             let progress = 0;
             
             // Make the loader visible
@@ -194,7 +193,7 @@
             
             // How long the loading should take (in milliseconds)
             const duration = 3000; // 3 seconds
-            const intervalTime = duration / 100; // ensures it completes in the specified duration
+            const intervalTime = duration / 100;
             
             // Start an interval to update the progress bar
             const loadingInterval = setInterval(() => {
@@ -204,20 +203,11 @@
                 progressFill.style.width = progress + '%';
                 progressText.textContent = progress + '%';
                 
-                // When progress reaches 100, stop the interval and redirect the new tab
+                // When progress reaches 100, stop the interval and redirect
                 if (progress >= 100) {
                     clearInterval(loadingInterval);
-                    // Redirect the already-opened tab to the final destination
-                    if(newTab) {
-                        newTab.location.href = destinationUrl;
-                    }
-                    // Hide the loader after a short delay
-                    setTimeout(() => {
-                        loaderOverlay.style.display = 'none';
-                        // Reset progress for the next click
-                        progressFill.style.width = '0%';
-                        progressText.textContent = '0%';
-                    }, 500);
+                    // THIS IS THE KEY CHANGE: Redirect the CURRENT TAB
+                    window.location.href = destinationUrl; 
                 }
             }, intervalTime);
         }
@@ -230,12 +220,9 @@
                 
                 // Get the URL from the button that was clicked
                 const destination = event.currentTarget.href;
-
-                // Open a new blank tab IMMEDIATELY. This is the key change.
-                const newTab = window.open('', '_blank');
                 
-                // Call our function to start the loader and pass the new tab reference
-                showLoaderAndRedirect(newTab, destination);
+                // Call our function to start the loader
+                showLoaderAndRedirect(destination);
             });
         });
     </script>
