@@ -14,23 +14,21 @@
             align-items: center;
             min-height: 100vh;
             text-align: center;
-            color: white; /* Make default text color white for better readability */
+            color: white;
         }
 
         /* --- Background Image --- */
         body::before {
             content: '';
-            position: fixed; /* Stays in place while scrolling */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            
             background-image: url('background.png'); 
             background-size: cover;
             background-position: center;
-            
             background-color: rgba(0, 0, 0, 0.5); 
             background-blend-mode: multiply;
         }
@@ -46,18 +44,17 @@
             -webkit-backdrop-filter: blur(4px);
             border: 1px solid rgba(255, 255, 255, 0.18);
             animation: mainFadeIn 1s ease-out;
-            position: relative; /* Needed to make logo positioning relative to container if desired, but we'll use fixed for corner */
         }
 
         /* --- Corner Logo --- */
         .corner-logo {
-            position: fixed; /* Positions relative to the viewport */
-            top: 20px;       /* Distance from the top */
-            right: 20px;     /* Distance from the right */
-            max-width: 120px; /* Adjust logo size as needed */
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            max-width: 120px;
             height: auto;
-            z-index: 100;    /* Ensures it stays on top of other content */
-            animation: fadeIn 1s ease-out; /* Optional: logo fade-in */
+            z-index: 100;
+            animation: fadeIn 1s ease-out;
         }
 
         /* --- Link Buttons --- */
@@ -73,12 +70,11 @@
             font-weight: 600;
             max-width: 350px;
             transition: transform 0.3s ease, background-color 0.3s ease;
-            opacity: 0;
             animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
         }
 
-        /* Stagger the animation for each button */
-        .link-button:nth-child(2) { animation-delay: 0.2s; } /* First button below logo */
+        .link-button:nth-child(2) { animation-delay: 0.2s; }
         .link-button:nth-child(3) { animation-delay: 0.4s; }
         .link-button:nth-child(4) { animation-delay: 0.6s; }
 
@@ -87,36 +83,148 @@
             background-color: white;
         }
 
-        /* --- Animations --- */
-        @keyframes mainFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* --- NEW: Loader Overlay --- */
+        #loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .loader-content {
+            text-align: center;
+            color: #fff;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        
+        #shopping-cart-svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            animation: cart-jiggle 1.5s infinite ease-in-out;
+        }
+        
+        .loader-text {
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            max-width: 300px;
+        }
+
+        .progress-bar {
+            width: 300px;
+            height: 20px;
+            background-color: #555;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #777;
+        }
+
+        #progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50; /* Green progress color */
+            border-radius: 10px;
+            transition: width 0.1s linear; /* Smooth progress update */
+        }
+        
+        #progress-text {
+            margin-top: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        /* --- Animations --- */
+        @keyframes mainFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes cart-jiggle {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-5deg); }
+            75% { transform: translateX(5px) rotate(5deg); }
         }
     </style>
 </head>
 <body>
+
     <img src="logo.png" alt="Company Logo" class="corner-logo">
 
     <div class="container">
+        <h1>Welcome!</h1>
         <a href="https://www.bestprice.in/bestprice/" class="link-button">Visit Our Main Website</a>
         <a href="https://www.yoursecondwebsite.com/products" class="link-button">See Our Products</a>
         <a href="https://www.yourthirdwebsite.com/contact" class="link-button">Contact Us</a>
     </div>
+
+    <div id="loader-overlay">
+        <div class="loader-content">
+            <svg id="shopping-cart-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6zM3 6h18M16 10a4 4 0 1 1-8 0" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p class="loader-text">Please wait, we're loading all the available discounts only for you!</p>
+            <div class="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+            <p id="progress-text">0%</p>
+        </div>
+    </div>
+
+    <script>
+        // Find all the link buttons on the page
+        const linkButtons = document.querySelectorAll('.link-button');
+        
+        // Get the loader elements from the HTML
+        const loaderOverlay = document.getElementById('loader-overlay');
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        
+        // Function to show the loader and start the animation
+        function showLoaderAndRedirect(destinationUrl) {
+            let progress = 0;
+            
+            // Make the loader visible
+            loaderOverlay.style.display = 'flex';
+            
+            // How long the loading should take (in milliseconds)
+            const duration = 3000; // 3 seconds
+            const intervalTime = 30; // update every 30ms
+            
+            // Start an interval to update the progress bar
+            const loadingInterval = setInterval(() => {
+                progress += 1;
+                
+                // Update the visual width of the progress bar
+                progressFill.style.width = progress + '%';
+                progressText.textContent = progress + '%';
+                
+                // When progress reaches 100, stop the interval and redirect
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    window.location.href = destinationUrl; // Go to the link!
+                }
+            }, intervalTime);
+        }
+        
+        // Add a 'click' event listener to each button
+        linkButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                // IMPORTANT: Prevent the link from navigating immediately
+                event.preventDefault(); 
+                
+                // Get the URL from the button that was clicked
+                const destination = event.currentTarget.href;
+                
+                // Call our function to start the loader
+                showLoaderAndRedirect(destination);
+            });
+        });
+    </script>
+
 </body>
 </html>
-
