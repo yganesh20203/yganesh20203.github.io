@@ -66,7 +66,7 @@
             font-size: 1.2em;
         }
         #userIdInput {
-            width: calc(100% - 22px); /* Adjusted for border */
+            width: calc(100% - 22px);
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
@@ -166,23 +166,90 @@
             animation: fadeIn 1s ease-out;
         }
 
-        /* Other styles */
-        .link-button { display: block; background-color: rgba(255, 255, 255, 0.9); color: #1c1c1c; padding: 18px; margin: 15px auto; border-radius: 10px; text-decoration: none; font-size: 1.1em; font-weight: 600; max-width: 350px; transition: transform 0.3s ease, background-color 0.3s ease; animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
+        /* --- Link Buttons --- */
+        .link-button {
+            display: block;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #1c1c1c;
+            padding: 18px;
+            margin: 15px auto;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            max-width: 350px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
         .link-button:nth-child(2) { animation-delay: 0.2s; }
         .link-button:nth-child(3) { animation-delay: 0.4s; }
         .link-button:nth-child(4) { animation-delay: 0.6s; }
-        .link-button:hover { transform: scale(1.05); background-color: white; }
-        #loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 9999; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .loader-content { text-align: center; color: #fff; }
-        #shopping-cart-svg { width: 80px; height: 80px; margin-bottom: 20px; animation: cart-jiggle 1.5s infinite ease-in-out; }
-        .loader-text { font-size: 1.2em; margin-bottom: 25px; max-width: 300px; }
-        .progress-bar { width: 300px; height: 20px; background-color: #555; border-radius: 10px; overflow: hidden; border: 1px solid #777; }
-        #progress-fill { width: 0%; height: 100%; background-color: #4CAF50; border-radius: 10px; transition: width 0.1s linear; }
-        #progress-text { margin-top: 10px; font-size: 1.1em; font-weight: bold; }
+        .link-button:hover {
+            transform: scale(1.05);
+            background-color: white;
+        }
+
+        /* --- Loader Overlay --- */
+        #loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .loader-content {
+            text-align: center;
+            color: #fff;
+        }
+        #shopping-cart-svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            animation: cart-jiggle 1.5s infinite ease-in-out;
+        }
+        .loader-text {
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            max-width: 300px;
+        }
+        .progress-bar {
+            width: 300px;
+            height: 20px;
+            background-color: #555;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #777;
+        }
+        #progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+        #progress-text {
+            margin-top: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        /* --- Animations --- */
         @keyframes mainFadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes cart-jiggle { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px) rotate(-5deg); } 75% { transform: translateX(5px) rotate(5deg); } }
+        @keyframes cart-jiggle {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-5deg); }
+            75% { transform: translateX(5px) rotate(5deg); }
+        }
     </style>
 </head>
 <body>
@@ -206,7 +273,7 @@
         <h1 data-key="welcome">Welcome!</h1>
         <a href="https://www.bestprice.in/bestprice/" class="link-button" data-key="link1">Visit Our Main Website</a>
         <a href="https://www.yoursecondwebsite.com/products" class="link-button" data-key="link2">See Our Products</a>
-        <a href="https://www.yourthirdwebsite.com/contact" class="link-button" data-key="link3">Contact Us</a>
+        <a href="YOUR_GOOGLE_FORM_LINK_HERE" class="link-button" id="feedback-link" data-key="link3">Write to us your feedback</a>
     </div>
 
     <div class="deals-container">
@@ -219,8 +286,8 @@
     <div id="loader-overlay">
         <div class="loader-content">
             <svg id="shopping-cart-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6zM3 6h18M16 10a4 4 0 1 1-8 0" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <p class="loader-text" data-key="loaderText">Please wait, we're loading all the available discounts only for you!</p>
-            <div class="progress-bar"><div id="progress-fill"></div></div>
+            <p class="loader-text" id="loader-text-element" data-key="loaderText">Please wait, we're loading all the available discounts only for you!</p>
+            <div class="progress-bar" id="progress-bar-container"><div id="progress-fill"></div></div>
             <p id="progress-text">0%</p>
         </div>
     </div>
@@ -256,12 +323,12 @@
             }
         });
 
-        // --- Language Translations (Updated) ---
+        // --- Language Translations ---
         const translations = {
-            en: { welcome: "Welcome!", link1: "Visit Our Main Website", link2: "See Our Products", link3: "Contact Us", loaderText: "Please wait, we're loading all the available discounts only for you!", dealsTitle: "Find the best deals only for you", dealsButton: "Find My Deals" },
-            hi: { welcome: "स्वागत है!", link1: "हमारी मुख्य वेबसाइट पर जाएँ", link2: "हमारे उत्पाद देखें", link3: "हमसे संपर्क करें", loaderText: "कृपया प्रतीक्षा करें, हम केवल आपके लिए सभी उपलब्ध छूट लोड कर रहे हैं!", dealsTitle: "केवल आपके लिए सर्वोत्तम सौदे खोजें", dealsButton: "मेरे सौदे खोजें" },
-            te: { welcome: "స్వాగతం!", link1: "మా ప్రధాన వెబ్‌సైట్‌ను సందర్శించండి", link2: "మా ఉత్పత్తులను చూడండి", link3: "మమ్మల్ని సంప్రదించండి", loaderText: "దయచేసి వేచి ఉండండి, మేము మీ కోసం మాత్రమే అందుబాటులో ఉన్న అన్ని డిస్కౌంట్లను లోడ్ చేస్తున్నాము!", dealsTitle: "మీ కోసం మాత్రమే ఉత్తమమైన డీల్‌లను కనుగొనండి", dealsButton: "నా డీల్‌లను కనుగొనండి" },
-            pa: { welcome: "ਜੀ ਆਇਆਂ ਨੂੰ!", link1: "ਸਾਡੀ ਮੁੱਖ ਵੈੱਬਸਾਈਟ 'ਤੇ ਜਾਓ", link2: "ਸਾਡੇ ਉਤਪਾਦ ਵੇਖੋ", link3: "ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ", loaderText: "ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ, ਅਸੀਂ ਸਿਰਫ਼ ਤੁਹਾਡੇ ਲਈ ਸਾਰੀਆਂ ਉਪਲਬਧ ਛੋਟਾਂ ਨੂੰ ਲੋడ్ ਕਰ ਰਹੇ ਹਾਂ!", dealsTitle: "ਸਿਰਫ਼ ਤੁਹਾਡੇ ਲਈ ਵਧੀਆ ਸੌਦੇ ਲੱਭੋ", dealsButton: "ਮੇਰੇ ਸੌਦੇ ਲੱਭੋ" }
+            en: { welcome: "Welcome!", link1: "Visit Our Main Website", link2: "See Our Products", link3: "Write to us your feedback", loaderText: "Please wait, we're loading all the available discounts only for you!", dealsTitle: "Find the best deals only for you", dealsButton: "Find My Deals" },
+            hi: { welcome: "स्वागत है!", link1: "हमारी मुख्य वेबसाइट पर जाएँ", link2: "हमारे उत्पाद देखें", link3: "हमें अपनी प्रतिक्रिया लिखें", loaderText: "कृपया प्रतीक्षा करें, हम केवल आपके लिए सभी उपलब्ध छूट लोड कर रहे हैं!", dealsTitle: "केवल आपके लिए सर्वोत्तम सौदे खोजें", dealsButton: "मेरे सौदे खोजें" },
+            te: { welcome: "స్వాగతం!", link1: "మా ప్రధాన వెబ్‌సైట్‌ను సందర్శించండి", link2: "మా ఉత్పత్తులను చూడండి", link3: "మీ అభిప్రాయాన్ని మాకు వ్రాయండి", loaderText: "దయచేసి వేచి ఉండండి, మేము మీ కోసం మాత్రమే అందుబాటులో ఉన్న అన్ని డిస్కౌంట్లను లోడ్ చేస్తున్నాము!", dealsTitle: "మీ కోసం మాత్రమే ఉత్తమమైన డీల్‌లను కనుగొనండి", dealsButton: "నా డీల్‌లను కనుగొనండి" },
+            pa: { welcome: "ਜੀ ਆਇਆਂ ਨੂੰ!", link1: "ਸਾਡੀ ਮੁੱਖ ਵੈੱਬਸਾਈਟ 'ਤੇ ਜਾਓ", link2: "ਸਾਡੇ ਉਤਪਾਦ ਵੇਖੋ", link3: "ਸਾਨੂੰ ਆਪਣੀ ਫੀਡਬੈਕ ਲਿਖੋ", loaderText: "ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ, ਅਸੀਂ ਸਿਰਫ਼ ਤੁਹਾਡੇ ਲਈ ਸਾਰੀਆਂ ਉਪਲਬਧ ਛੋਟਾਂ ਨੂੰ ਲੋడ్ ਕਰ ਰਹੇ ਹਾਂ!", dealsTitle: "ਸਿਰਫ਼ ਤੁਹਾਡੇ ਲਈ ਵਧੀਆ ਸੌਦੇ ਲੱਭੋ", dealsButton: "ਮੇਰੇ ਸੌਦੇ ਲੱਭੋ" }
         };
 
         // --- Language Selector Logic ---
@@ -295,20 +362,25 @@
                 languageOptions.classList.add('hidden');
             }
         });
-        setLanguage('en');
+        
 
         // --- Link Button & Loader Logic ---
         const linkButtons = document.querySelectorAll('.link-button');
+        const feedbackLink = document.getElementById('feedback-link');
         const loaderOverlay = document.getElementById('loader-overlay');
         const progressFill = document.getElementById('progress-fill');
         const progressText = document.getElementById('progress-text');
+        const loaderTextElement = document.getElementById('loader-text-element');
+        const progressBarContainer = document.getElementById('progress-bar-container');
+        const cartSvg = document.getElementById('shopping-cart-svg');
+
+        // Back Button Fix
         window.addEventListener('pageshow', function(event) {
             if (event.persisted) {
                 loaderOverlay.style.display = 'none';
-                progressFill.style.width = '0%';
-                progressText.textContent = '0%';
             }
         });
+
         function showLoaderAndRedirect(destinationUrl) {
             let progress = 0;
             loaderOverlay.style.display = 'flex';
@@ -324,13 +396,38 @@
                 }
             }, intervalTime);
         }
+
+        // Add listener to main links
         linkButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                event.preventDefault();
-                const destination = event.currentTarget.href;
-                showLoaderAndRedirect(destination);
-            });
+            if (button.id !== 'feedback-link') {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    progressBarContainer.style.display = 'block';
+                    progressText.style.display = 'block';
+                    cartSvg.style.display = 'block';
+                    loaderTextElement.textContent = translations[document.documentElement.lang || 'en'].loaderText;
+                    const destination = event.currentTarget.href;
+                    showLoaderAndRedirect(destination);
+                });
+            }
         });
+
+        // Special listener for feedback link
+        feedbackLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            const destination = event.currentTarget.href;
+            progressBarContainer.style.display = 'none';
+            progressText.style.display = 'none';
+            cartSvg.style.display = 'none';
+            loaderTextElement.textContent = "Your opinion matters to us a lot, please help us in improving it...";
+            loaderOverlay.style.display = 'flex';
+            setTimeout(() => {
+                window.location.href = destination;
+            }, 2500);
+        });
+
+        // Set default language on page load
+        setLanguage('en');
     </script>
 
 </body>
