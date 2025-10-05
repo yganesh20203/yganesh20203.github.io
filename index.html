@@ -184,29 +184,32 @@
         const progressFill = document.getElementById('progress-fill');
         const progressText = document.getElementById('progress-text');
         
+        // --- NEW: Back Button Fix ---
+        // Listen for the 'pageshow' event, which fires every time the page is displayed
+        window.addEventListener('pageshow', function(event) {
+            // The 'persisted' property is true if the page is being loaded from the cache (i.e., via the back button)
+            if (event.persisted) {
+                // If it's a back navigation, immediately hide the loader and reset it.
+                loaderOverlay.style.display = 'none';
+                progressFill.style.width = '0%';
+                progressText.textContent = '0%';
+            }
+        });
+
         // Function to show the loader and start the animation
         function showLoaderAndRedirect(destinationUrl) {
             let progress = 0;
-            
-            // Make the loader visible
             loaderOverlay.style.display = 'flex';
-            
-            // How long the loading should take (in milliseconds)
             const duration = 3000; // 3 seconds
             const intervalTime = duration / 100;
             
-            // Start an interval to update the progress bar
             const loadingInterval = setInterval(() => {
                 progress += 1;
-                
-                // Update the visual width of the progress bar
                 progressFill.style.width = progress + '%';
                 progressText.textContent = progress + '%';
                 
-                // When progress reaches 100, stop the interval and redirect
                 if (progress >= 100) {
                     clearInterval(loadingInterval);
-                    // THIS IS THE KEY CHANGE: Redirect the CURRENT TAB
                     window.location.href = destinationUrl; 
                 }
             }, intervalTime);
@@ -215,13 +218,8 @@
         // Add a 'click' event listener to each button
         linkButtons.forEach(button => {
             button.addEventListener('click', (event) => {
-                // IMPORTANT: Prevent the link from navigating immediately
                 event.preventDefault(); 
-                
-                // Get the URL from the button that was clicked
                 const destination = event.currentTarget.href;
-                
-                // Call our function to start the loader
                 showLoaderAndRedirect(destination);
             });
         });
