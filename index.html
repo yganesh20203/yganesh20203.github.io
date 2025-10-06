@@ -250,6 +250,38 @@
             25% { transform: translateX(-5px) rotate(-5deg); }
             75% { transform: translateX(5px) rotate(5deg); }
         }
+
+        /* --- Responsive Design for Mobile --- */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px 0; /* Slightly less vertical padding */
+            }
+
+            .corner-logo {
+                max-width: 150px; /* Smaller logo on mobile */
+                top: 15px;
+                left: 15px;
+            }
+
+            .container, .deals-container {
+                width: 95%; /* Use a bit more of the screen width */
+                padding: 20px; /* Reduce padding */
+            }
+
+            h1 {
+                font-size: 1.8em; /* Smaller main heading */
+            }
+
+            .link-button {
+                padding: 15px; /* Slightly smaller buttons */
+                font-size: 1em; /* Adjust font size */
+            }
+            
+            .language-selector {
+                top: 12px;
+                right: 12px;
+            }
+        }
     </style>
 </head>
 <body>
