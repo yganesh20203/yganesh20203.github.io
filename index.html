@@ -272,7 +272,7 @@
 
         <h1 data-key="welcome">Welcome!</h1>
         <a href="https://www.bestprice.in/bestprice/" class="link-button" data-key="link1">Visit Our Main Website</a>
-        <a href="https://www.yoursecondwebsite.com/products" class="link-button" data-key="link2">Our Festive Offers</a>
+        <a href="festive_offers.pdf" class="link-button" data-key="link2" target="_blank">Our Festive Offers</a>
         <a href="https://forms.gle/ab2Hu3mwoGsdG7dx6" class="link-button" id="feedback-link" data-key="link3">Write to us your feedback</a>
     </div>
 
@@ -416,7 +416,7 @@
             }
         });
 
-        function showLoaderAndRedirect(destinationUrl) {
+        function showLoaderAndRedirect(destinationUrl, target) {
             let progress = 0;
             loaderOverlay.style.display = 'flex';
             const duration = 3000;
@@ -427,7 +427,12 @@
                 progressText.textContent = progress + '%';
                 if (progress >= 100) {
                     clearInterval(loadingInterval);
-                    window.location.href = destinationUrl;
+                    if (target === '_blank') {
+                        window.open(destinationUrl, '_blank');
+                        loaderOverlay.style.display = 'none'; // Hide loader after opening in new tab
+                    } else {
+                        window.location.href = destinationUrl;
+                    }
                 }
             }, intervalTime);
         }
@@ -443,7 +448,8 @@
                     const currentLang = document.documentElement.lang || 'en';
                     loaderTextElement.textContent = translations[currentLang].loaderText;
                     const destination = event.currentTarget.href;
-                    showLoaderAndRedirect(destination);
+                    const target = event.currentTarget.target;
+                    showLoaderAndRedirect(destination, target);
                 });
             }
         });
@@ -469,4 +475,3 @@
 
 </body>
 </html>
-
